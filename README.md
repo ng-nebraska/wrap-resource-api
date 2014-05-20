@@ -35,7 +35,7 @@ var Timesheet = $resource('/timesheets/:id',
 
 But if ***EVERY*** domain model in your application needs the update method and has an `id`
 property, there would be a ton of duplication littered throughout your controllers and/or
-services, depending on where your resources live.
+services because you would need to declare your resources wherever they are used.
 
 For this reason, I like to wrap my `$resource` objects with a 2 step approach: *Registration*
 and *Execution*. I accomplish this by creating two simple services. We'll call them `api` and `data`.
@@ -320,11 +320,15 @@ For example, setting `list()` and `get()` functions on our ***dataProvider*** ..
 
 ```javascript
   list: function (resource, query) {
-    return data.list(resource, query);
+    return function list (data) { // inject the data service
+      data.list(resource, query);
+    }
   },
 
   get: function (resource, query) {
-    return data.list(resource, query);
+    return function get (data) { // inject the data service
+      data.list(resource, query);
+    }
   }
 ```
 ... allows us to easily use these functions in our resolve blocks, like:
