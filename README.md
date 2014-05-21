@@ -1,4 +1,4 @@
-## Wrapping Angular's $resource for Easy and Consistent API's
+## Extending Angular's $resource for Consistent REST API's
 
 One of my favorite modules provided by AngularJS is the [**ngResource**](https://docs.angularjs.org/api/ngResource/service/$resource) module,
 because it has intelligent defaults and also allows me to be very flexible configuring
@@ -66,17 +66,13 @@ angular.module('app.resources', ['ngResource'])
 ```javascript
 .factory('api', function ($resource) {
 ```
-- I tend to use object literal notation in my factories.
-
-```javascript
-    var api = {
-```
 
 - The first property of our `api` is a configuration object that contains the mapping of
 the id parameter to the `id` property of the resource object. Any other cross-cutting
 url variables or query parameters can be placed within this object and named appropriately.
 
 ```javascript
+    var api = {
       defaultConfig : {id: '@id'},
 ```
 - We then set an `extraMethods` object on our service to contain any extra method configuration
@@ -90,8 +86,8 @@ that is needed by our application but not provided by default via `$resource`.
       },
 ```
 - Our `api` service will have one method, `add()`. This method will handle registering
-each resource with the service. It also lets us configure our resources to be specific
-to our needs.
+each resource with the service and make them available to the rest of the application.
+It also lets us configure our resources to be specific to our needs.
 
 ```javascript
       add : function (config) {
