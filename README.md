@@ -316,15 +316,21 @@ For example, setting `list()` and `get()` functions on our ***dataProvider*** ..
 
 ```javascript
   list: function (resource, query) {
-    return function list (data) { // inject the data service
-      data.list(resource, query);
-    }
+    return [
+      'data',
+      function list (data) { // inject the data service
+        data.list(resource, query);
+      }
+    ]
   },
 
   get: function (resource, query) {
-    return function get (data) { // inject the data service
-      data.list(resource, query);
-    }
+    return [
+      'data',
+      function get (data) { // inject the data service
+        data.list(resource, query);
+      }
+    ]
   }
 ```
 ... allows us to easily use these functions in our resolve blocks, like:
